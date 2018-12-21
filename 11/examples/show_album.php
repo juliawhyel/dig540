@@ -1,7 +1,20 @@
+<?php
+        error_reporting(E_ALL); 
+        ini_set("display_errors", 1); 
+        include_once("./includes/db_config.php");
+        include_once("./includes/Album.php");
+
+        //Create an empty array that will be filled with albums
+        if(isset($_GET['id']) && $_GET['id'] != ''){
+            $album = Album::load_by_id($_GET['id']);
+        } else {
+            $album = false;
+        }
+?>
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Hello, world!</title>
+    <title>The list of all albums</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,9 +22,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   </head>
   <body>
-    <h1>Hello, world!</h1>
-
-    Insert PHP for displaying album data here!
+    <h1>Here are all the albums in the database</h1>
+    <?php
+        if(!$album){
+            print_r('Something went wrong. Either you did not specify an album ID or the ID was not found.');
+        } else {
+            print_r("<p>");
+            $album->getData();
+            print_r('</p>');
+        }
+    ?>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
